@@ -48,13 +48,18 @@ class User extends Authenticatable
         ];
     }
 
-    public function ideas():HasMany
+    public function ideas(): HasMany
     {
         return $this->hasMany(Idea::class);
     }
 
-    public function ideasLiked():BelongsToMany
+    public function ideasLiked(): BelongsToMany
     {
-        return $this->belongsToMany(Idea::class,'idea_user');
+        return $this->belongsToMany(Idea::class, 'idea_user');
+    }
+
+    public function iLikeIt($ideaId): bool
+    {
+        return $this->ideasLiked()->where('idea_id', $ideaId)->exists();
     }
 }
